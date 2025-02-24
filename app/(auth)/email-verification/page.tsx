@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEmailVerificationStore } from "@/store/email-verification";
 import { emailOtp } from "@/lib/auth-client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
@@ -30,7 +30,7 @@ export default function EmailVerification() {
         onSuccess: () => {
           toast.success("Email verified successfully");
           removeEmail();
-          router.push("/home");
+          router.push("/sign-in");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -38,6 +38,12 @@ export default function EmailVerification() {
       },
     });
   };
+
+  useEffect(() => {
+    if (!email) {
+      router.push("/sign-in");
+    }
+  })
   return (
     <div className="flex flex-col justify-center items-center h-dvh gap-y-8">
       <InputOTP

@@ -70,7 +70,7 @@ export default function SignInForm() {
         },
         onSuccess: () => {
           toast.success("Logged in successfully");
-          router.push("/home");
+          router.push("/dashboard");
         },
       },
     });

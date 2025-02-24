@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
-import { emailOTP } from "better-auth/plugins";
+import { emailOTP, admin } from "better-auth/plugins";
 // import { sendEmailVerificatiomOTP } from "./functions";
 
 const prisma = new PrismaClient();
@@ -35,6 +35,7 @@ export const auth = betterAuth({
       disableSignUp: true,
       sendVerificationOnSignUp: true,
     }),
+    admin()
   ],
 });
 
