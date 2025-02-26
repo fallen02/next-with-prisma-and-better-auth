@@ -84,6 +84,7 @@ model Verification {
 
 
 
+
 // model Files {
 //   id String @id
 //   name String
@@ -91,5 +92,29 @@ model Verification {
 //   createdAt DateTime
 //   updatedAt DateTime
 //   userId String
+  
+// }
+// Name to be changed to Searies
+// model SeariesDetails{  
+//   id String @id
+//   name String
+//   synopsis String
+//   bannae String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   userId String
+  
+  
+// }
+
+// model SeariesEpisodes {
+//   id String @id
+//   name String
+//   description String
+//   image String
+//   createdAt DateTime
+//   updatedAt DateTime
+
+//   seariesDetails SeariesDetails[]
   
 // }
