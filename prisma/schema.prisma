@@ -81,40 +81,64 @@ model Verification {
   @@map("verification")
 }
 
+model Series {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String
+  origin    String
+  overview  String?  @db.Text
+  status    String
+  poster    String
+  backdrop  String
+  rating    Float
+  fldId     String //folderId from filemoon
+  tmdbId    String
+  genre     String[]
+  createdAt DateTime @default(now())
 
+  // Relations
+  seasons Season[]
+  // @@index([origin])
 
+  @@index([slug])
+  @@index([title])
+  @@map("series")
+}
 
+model Season {
+  id           Int      @id @default(autoincrement())
+  title        String
+  overview     String?  @db.Text
+  seasonNumber Int
+  episodeCount Int
+  fldId        String //folderId from filemoon
+  createdAt    DateTime @default(now())
 
-// model Files {
-//   id String @id
-//   name String
-//   url String
-//   createdAt DateTime
-//   updatedAt DateTime
-//   userId String
-  
-// }
-// Name to be changed to Searies
-// model SeariesDetails{  
-//   id String @id
-//   name String
-//   synopsis String
-//   bannae String
-//   createdAt DateTime
-//   updatedAt DateTime
-//   userId String
-  
-  
-// }
+  // Relations
+  seriesId Int
+  series   Series    @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  episodes Episode[]
 
-// model SeariesEpisodes {
-//   id String @id
-//   name String
-//   description String
-//   image String
-//   createdAt DateTime
-//   updatedAt DateTime
+  @@index([title])
+  @@index([episodeCount])
+  @@map("season")
+}
 
-//   seariesDetails SeariesDetails[]
-  
-// }
+model Episode {
+  id            Int      @id @default(autoincrement())
+  title         String
+  episodeNumber Int  
+  fileID        String //folderId from filemoon
+  hslUrl        String
+  createdAt     DateTime @default(now())
+
+  // Relations
+  seasonId Int
+  season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  // @@index([origin])
+
+  @@index([title])
+  @@index([hslUrl])
+  @@index([episodeNumber])
+  @@map("episode")
+}
