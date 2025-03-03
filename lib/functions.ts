@@ -1,11 +1,5 @@
 "use server";
-
 import { GenreType, SeasonType } from "./types";
-
-type createFolderTypes = {
-  name: string;
-  parent?: number | null;
-};
 
 export async function getTMDBData(tmdbId: string) {
   try {
@@ -63,6 +57,7 @@ export async function getSeriesSeasonData(
 
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log(data);
     if (response.status === 200)
       return data.episodes.map(
         (episode: {
@@ -104,20 +99,19 @@ export const getUploadServer = async () => {
   }
 };
 
-export const createFolder = async ({ info }: { info: createFolderTypes }) => {
-  console.log(info);
+export const createFilemoonFolder = async ({ name, parent }: { name: string, parent?: number }) => {
   try {
-    const url = `${process.env.FILEMONN_API_BASE_URL}api/folder/create?key=${process.env.FILEMONN_API_KEY}${info.parent ? `&parent_id=${info.parent}` : ''}&name=${info.name}`;
-    console.log(url);
-    // const options = {
-    //   method: "POST",
-    // };
-
-    // const res = await fetch(url, options);
-    // const data = await res.json();
-    // if (res.status === 200) {
-    //   return data.result;
-    // }
+    const url = `${process.env.FILEMONN_API_BASE_URL}folder/create?key=${process.env.FILEMONN_API_KEY}${parent ? `&parent_id=${parent}` : ''}&name=${name}`;
+    
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await fetch(url, config).then((res) => res.json());
+    if(res.status === 200) return res.result;
+    return null;
   } catch (error) {
     console.log(error);
   }
